@@ -74,17 +74,20 @@ def survive():
         days = days + 1
         #input("Press enter to go to the next day")
 
-loops = 100000
+loops = 10000000
 count = 0
 avgdays = 0
+survival = 0
 days = []
 while(count < loops):
     surviveddays = survive()
     avgdays = avgdays + surviveddays
     days.append(surviveddays)
     count = count + 1
+    if surviveddays >= 1825:
+        survival = survival + 1
 print (avgdays/loops)
-print (days)
+print ("Number of times survived = %s" % survival)
 
 
 #plotting a simple histogram
