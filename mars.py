@@ -22,20 +22,15 @@ p1break = 0.1
 p2break = 0.075
 p3break = 0.05
 
-#Printer and Life support status [p1, p2, p3, lst]
+iterations = 10000
 
-
-
-
-
-
-
-#Probabilities out of 1000
 #One day
 def survive():
 
+    #Printer status
     status = [1,1,1]
-    probs = [100, 75, 50]
+    #Probabilities out of 1000 to use integers
+    probs = [p1break*1000, p2break*1000, p3break*1000]
     days = 0
 
 
@@ -44,10 +39,8 @@ def survive():
         #Check machine status on given day, if working
         for idx,val in enumerate(status):
             if val == 1:
-                if (random.randint(1,1000) <= probs[idx]):
+                if (random.randint(1,2500) <= probs[idx]):
                     status[idx] = 0
-                    #print ("machine %s broke" % (idx+1))
-        #print("initial status is %s" % status)
 
         #If machine is broken, test if it can be fixed
         for idx,val in enumerate(status):
@@ -59,43 +52,45 @@ def survive():
                     working = working + x
                 #No machines working, you' dead sucka
                 if working == 0:
-                    #print("You're dead!")
-
                     return days
-                #Only one machine working, wait until you die
-
                 #2 Machines working, you can be fixed!
                 if working == 2:
                     status[idx] = 1
-                    #print("You were fixed!")
-
-
-        #print("Final status is %s" % status)
         days = days + 1
-        #input("Press enter to go to the next day")
 
-loops = 10000000
+
+
+
+
+
+#This block runs survive() multiple times and tallies the results
+
 count = 0
 avgdays = 0
 survival = 0
 days = []
-while(count < loops):
+
+
+while(count < iterations):
     surviveddays = survive()
     avgdays = avgdays + surviveddays
     days.append(surviveddays)
     count = count + 1
     if surviveddays >= 1825:
         survival = survival + 1
-print (avgdays/loops)
+print ("You survived on average %s days after %s iterations" % ((avgdays/iterations),(iterations)))
 print ("Number of times survived = %s" % survival)
+print ("Your survival probability is %s%%" % ((survival/iterations)*100))
 
 
-#plotting a simple histogram
+
+
+
+
+#Plotting a simple histogram
 
 sigma = np.std(days)
-
 num_bins = 50
-
 fig, ax = plt.subplots()
 
 # the histogram of the data
