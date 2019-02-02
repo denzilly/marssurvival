@@ -14,6 +14,7 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
+import time
 
 
 #Probablilities
@@ -22,7 +23,9 @@ p1break = 0.1
 p2break = 0.075
 p3break = 0.05
 
-iterations = 10000
+iterations = 100000
+
+start = time.time()
 
 #One day
 def survive():
@@ -39,7 +42,7 @@ def survive():
         #Check machine status on given day, if working
         for idx,val in enumerate(status):
             if val == 1:
-                if (random.randint(1,2500) <= probs[idx]):
+                if (random.randint(1,1000) <= probs[idx]):
                     status[idx] = 0
 
         #If machine is broken, test if it can be fixed
@@ -82,28 +85,7 @@ print ("You survived on average %s days after %s iterations" % ((avgdays/iterati
 print ("Number of times survived = %s" % survival)
 print ("Your survival probability is %s%%" % ((survival/iterations)*100))
 
+end = time.time()
+timetaken = end-start
 
-
-
-
-
-#Plotting a simple histogram
-
-sigma = np.std(days)
-num_bins = 50
-fig, ax = plt.subplots()
-
-# the histogram of the data
-n, bins, patches = ax.hist(days, num_bins, density=1)
-
-# add a 'best fit' line
-y = ((1 / (np.sqrt(2 * np.pi) * sigma)) *
-     np.exp(-0.5 * (1 / sigma * (bins - avgdays))**2))
-ax.plot(bins, y, '--')
-ax.set_xlabel('Days Survived')
-ax.set_ylabel('Probability density')
-ax.set_title('Histogram of Days survived on Mars')
-
-# Tweak spacing to prevent clipping of ylabel
-fig.tight_layout()
-plt.show()
+print(timetaken)
