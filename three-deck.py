@@ -32,21 +32,35 @@ def war(decks, responses):
     #Player's deck selected from list, as well as appropriate response from Monte
     pd = decks[playerchoice]
     md = responses[playerchoice]
+    pdd = pd
 
+    mdd = md
+    #initialise points and deck size
     p_pts, m_pts = 0, 0
-
+    decksize = 12
 
     #Play the game, until one player has 5 points upon which they are declared the winner
     while ( (p_pts < 5) and (m_pts < 5) ):
 
 
-        p_card = pd[random.randint(0,11)]
-        m_card = md[random.randint(0,11)]
+
+        p_rand = random.randint(0,(decksize - 1))
+        m_rand = random.randint(0,(decksize - 1))
+
+
+        p_card = pdd[p_rand]
+        m_card = mdd[m_rand]
 
         if ( p_card > m_card):
             p_pts += 1
         else:
             m_pts += 1
+
+        #reduce the decksize, and remove drawn cards
+        decksize -= 1
+
+        del pdd[p_rand]
+        del mdd[m_rand]
 
     #Return the winner to main()
     if(p_pts > m_pts):
@@ -81,11 +95,11 @@ def main():
 
         count += 1
 
-    
+
     print("You won %s games out of %s games. Win probability = %s%%" % (p_wins, iterations, (p_wins/iterations)*100))
 
 
 
 
-
+#war(decks, responses)
 main()
