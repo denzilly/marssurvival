@@ -5,24 +5,23 @@ import time
 #We rank the cards,  such that J=11,  Q=12,  etc.
 
 
-# We have already established the
-#We rank the cards,  such that J=11,  Q=12,  etc.
-red_deck = [14, 14, 14, 14, 9, 9, 9, 9, 7, 7, 7, 7]
-blue_deck = [13, 13, 13, 13, 11, 11, 11, 11, 6, 6, 6, 6]
-black_deck = [12, 12, 12, 12, 10, 10, 10, 10, 8, 8, 8, 8]
 
-
-#We already know Monte's best responses for each deck choice
-decks = [red_deck, blue_deck, black_deck]
-responses = [black_deck, red_deck, blue_deck]
 
 
 #This function plays the game once
-def war(decks, responses):
+def war():
 
 
-    decks = decks
-    responses = responses
+    # We have already established the
+    #We rank the cards,  such that J=11,  Q=12,  etc.
+    red_deck = [14, 14, 14, 14, 9, 9, 9, 9, 7, 7, 7, 7]
+    blue_deck = [13, 13, 13, 13, 11, 11, 11, 11, 6, 6, 6, 6]
+    black_deck = [12, 12, 12, 12, 10, 10, 10, 10, 8, 8, 8, 8]
+
+
+    #We already know Monte's best responses for each deck choice
+    decks = [red_deck, blue_deck, black_deck]
+    responses = [black_deck, red_deck, blue_deck]
 
     #Player chooses a random deck
     playerchoice = random.randint(0,2)
@@ -32,9 +31,7 @@ def war(decks, responses):
     #Player's deck selected from list, as well as appropriate response from Monte
     pd = decks[playerchoice]
     md = responses[playerchoice]
-    pdd = pd
 
-    mdd = md
     #initialise points and deck size
     p_pts, m_pts = 0, 0
     decksize = 12
@@ -48,8 +45,8 @@ def war(decks, responses):
         m_rand = random.randint(0,(decksize - 1))
 
 
-        p_card = pdd[p_rand]
-        m_card = mdd[m_rand]
+        p_card = pd[p_rand]
+        m_card = md[m_rand]
 
         if ( p_card > m_card):
             p_pts += 1
@@ -59,8 +56,8 @@ def war(decks, responses):
         #reduce the decksize, and remove drawn cards
         decksize -= 1
 
-        del pdd[p_rand]
-        del mdd[m_rand]
+        del pd[p_rand]
+        del md[m_rand]
 
     #Return the winner to main()
     if(p_pts > m_pts):
@@ -85,7 +82,7 @@ def main():
             print("Progress %s%%" % ((count / iterations)*100))
 
         #call game function war()
-        winner = war(decks, responses)
+        winner = war()
 
         #Tally up the scores
         if (winner == "player"):
