@@ -11,42 +11,81 @@ red_deck = [14, 14, 14, 14, 9, 9, 9, 9, 7, 7, 7, 7]
 blue_deck = [13, 13, 13, 13, 11, 11, 11, 11, 6, 6, 6, 6]
 black_deck = [12, 12, 12, 12, 10, 10, 10, 10, 8, 8, 8, 8]
 
-decks = [red_deck, blue_deck, black_deck]
 
+#We already know Monte's best responses for each deck choice
+decks = [red_deck, blue_deck, black_deck]
 responses = [black_deck, red_deck, blue_deck]
 
 
+#This function plays the game once
+def war(decks, responses):
 
-def play(decks, responses):
 
     decks = decks
     responses = responses
 
+    #Player chooses a random deck
     playerchoice = random.randint(0,2)
 
-    playerdeck = decks[playerchoice]
-    montedeck = responses[playerchoice]
-
-    war(playerdeck, montedeck)
 
 
-def war(playerdeck, montedeck)
-
-    pd = playerdeck
-    md = montedeck
+    #Player's deck selected from list, as well as appropriate response from Monte
+    pd = decks[playerchoice]
+    md = responses[playerchoice]
 
     p_pts, m_pts = 0, 0
 
-    while ( (p_pts < 5) | (m_pts < 5) ):
+
+    #Play the game, until one player has 5 points upon which they are declared the winner
+    while ( (p_pts < 5) and (m_pts < 5) ):
+
 
         p_card = pd[random.randint(0,11)]
         m_card = md[random.randint(0,11)]
 
         if ( p_card > m_card):
             p_pts += 1
-            print("Your %s beats Monte's %s. Score is P%s-M%s.") % (p_card, m_card, p_pts, m_pts)
         else:
             m_pts += 1
-            print("Your %s loses to Monte's %s. Score is P%s-M%s.") % (p_card, m_card, p_pts, m_pts)
 
-        input("enter to continue")
+    #Return the winner to main()
+    if(p_pts > m_pts):
+        winner = "player"
+        return winner
+    else:
+        winner = "monte"
+        return winner
+
+
+
+def main():
+
+    #Set number of loops to perform
+    iterations = 1000000
+    count, p_wins, m_wins = 0, 0, 0
+
+    while (count < iterations):
+
+        #This if is a progress indicator, for high iteration counts
+        if(count % (iterations/10) == 0):
+            print("Progress %s%%" % ((count / iterations)*100))
+
+        #call game function war()
+        winner = war(decks, responses)
+
+        #Tally up the scores
+        if (winner == "player"):
+            p_wins += 1
+        else:
+            m_wins += 1
+
+        count += 1
+
+    
+    print("You won %s games out of %s games. Win probability = %s%%" % (p_wins, iterations, (p_wins/iterations)*100))
+
+
+
+
+
+main()
